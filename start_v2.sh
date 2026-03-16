@@ -30,18 +30,8 @@ fi
 source .venv/bin/activate 2>/dev/null || true
 
 # ─── Install Python deps if needed ────────────────
-if ! python3 -c "import websockets" 2>/dev/null; then
-    echo "📦 Installing websockets..."
-    pip install websockets >/dev/null 2>&1 || pip3 install websockets >/dev/null 2>&1
-fi
-
-if ! python3 -c "import google.genai" 2>/dev/null; then
-    echo "📦 Installing google-genai..."
-    pip install google-genai >/dev/null 2>&1 || pip3 install google-genai >/dev/null 2>&1
-else
-    echo "📦 Upgrading google-genai to latest..."
-    pip install --upgrade google-genai >/dev/null 2>&1 || pip3 install --upgrade google-genai >/dev/null 2>&1
-fi
+echo "📦 Installing Python dependencies from requirements.txt..."
+pip install -r requirements.txt >/dev/null 2>&1 || pip3 install -r requirements.txt >/dev/null 2>&1
 
 # ─── Check for GEMINI_API_KEY ─────────────────────
 if [ -f ".env" ]; then
