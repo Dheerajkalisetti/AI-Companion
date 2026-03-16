@@ -1,0 +1,61 @@
+# OmniCompanion — GCP Configuration
+# All Google Cloud Platform service endpoints and project configuration
+
+project:
+  id: "${GCP_PROJECT_ID}"
+  region: "${GCP_REGION}"
+  zone: "${GCP_ZONE}"
+
+vertex_ai:
+  location: "${VERTEX_AI_LOCATION}"
+  model_id: "gemini-3-flash"
+  embedding_model_id: "text-embedding-004"
+  endpoint: "us-central1-aiplatform.googleapis.com"
+  max_output_tokens: 8192
+  temperature: 0.1
+  top_p: 0.95
+  top_k: 40
+
+cloud_run:
+  service_name: "omnicompanion-orchestrator"
+  region: "${GCP_REGION}"
+  min_instances: 1
+  max_instances: 10
+  memory: "2Gi"
+  cpu: "2"
+  concurrency: 1
+  timeout_seconds: 300
+  port: 8080
+
+firestore:
+  database_id: "(default)"
+  collections:
+    sessions: "sessions"
+    user_preferences: "user_preferences"
+    knowledge_base: "knowledge_base"
+
+cloud_storage:
+  bucket_name: "${GCS_BUCKET}"
+  location: "${GCP_REGION}"
+  storage_class: "STANDARD"
+  paths:
+    screenshots: "screenshots"
+    dom_snapshots: "dom_snapshots"
+    exports: "exports"
+
+cloud_logging:
+  log_name: "omnicompanion-audit"
+  retention_days: 30
+
+iam:
+  service_account: "omnicompanion-sa@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
+  roles:
+    - "roles/aiplatform.user"
+    - "roles/datastore.user"
+    - "roles/storage.objectAdmin"
+    - "roles/logging.logWriter"
+    - "roles/run.invoker"
+
+grpc:
+  host: "127.0.0.1"
+  port: 50051

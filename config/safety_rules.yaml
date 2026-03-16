@@ -1,0 +1,121 @@
+# OmniCompanion — Safety Rules Configuration
+# Hardcoded rules for the Safety Monitor Agent
+
+# Risk level definitions:
+#   low      - Read-only operations, no side effects
+#   medium   - Reversible actions, limited scope
+#   high     - Significant changes, file operations
+#   critical - Destructive, system-level, or irreversible
+
+# Actions that are always blocked (no override)
+blocked_actions:
+  - pattern: "rm -rf /"
+    risk: critical
+    reason: "Root filesystem deletion is never allowed"
+  - pattern: "rm -rf ~"
+    risk: critical
+    reason: "Home directory deletion is never allowed"
+  - pattern: "mkfs"
+    risk: critical
+    reason: "Filesystem formatting is never allowed"
+  - pattern: "dd if=/dev"
+    risk: critical
+    reason: "Raw disk operations are never allowed"
+  - pattern: ":(){:|:&};:"
+    risk: critical
+    reason: "Fork bomb detected"
+
+# Commands that require user confirmation
+confirmation_required:
+  - pattern: "rm"
+    risk: high
+    reason: "File deletion requires confirmation"
+  - pattern: "sudo"
+    risk: critical
+    reason: "Privilege escalation requires confirmation"
+  - pattern: "chmod"
+    risk: high
+    reason: "Permission changes require confirmation"
+  - pattern: "chown"
+    risk: high
+    reason: "Ownership changes require confirmation"
+  - pattern: "mv"
+    risk: medium
+    reason: "File moves logged but auto-approved"
+  - pattern: "curl.*| sh"
+    risk: critical
+    reason: "Remote script execution requires confirmation"
+  - pattern: "wget.*| sh"
+    risk: critical
+    reason: "Remote script execution requires confirmation"
+  - pattern: "pip install"
+    risk: high
+    reason: "Package installation requires confirmation"
+  - pattern: "npm install -g"
+    risk: high
+    reason: "Global package installation requires confirmation"
+
+# Filesystem paths that are off-limits
+blocked_paths:
+  - path: "/System"
+    risk: critical
+    reason: "System directory is protected"
+  - path: "/etc"
+    risk: critical
+    reason: "System configuration is protected"
+  - path: "~/.ssh"
+    risk: critical
+    reason: "SSH keys are protected"
+  - path: "~/.gnupg"
+    risk: critical
+    reason: "GPG keys are protected"
+  - path: "~/.aws"
+    risk: critical
+    reason: "AWS credentials are protected"
+  - path: "~/.gcloud"
+    risk: critical
+    reason: "GCloud credentials are protected"
+  - path: "~/.config/gcloud"
+    risk: critical
+    reason: "GCloud credentials are protected"
+
+# File patterns that should never be read or transmitted
+sensitive_file_patterns:
+  - "id_rsa*"
+  - "id_ed25519*"
+  - "*.pem"
+  - "*.key"
+  - ".env"
+  - "*.secret"
+  - "password*"
+  - "credentials*"
+  - "token*"
+
+# Domain blocklist for browser agent
+blocked_domains:
+  - pattern: "*.onion"
+    reason: "Tor hidden services blocked"
+  - pattern: "file://*"
+    reason: "Local file access via browser blocked"
+
+# Rate limiting
+rate_limits:
+  gemini_calls_per_minute: 30
+  actions_per_minute: 60
+  screenshots_per_minute: 20
+  browser_navigations_per_minute: 15
+
+# Auto-approve rules (fast path)
+auto_approve:
+  - action: "screenshot"
+    risk: low
+  - action: "window_list"
+    risk: low
+  - action: "screen_capture"
+    risk: low
+  - action: "ocr_read"
+    risk: low
+  - action: "memory_read"
+    risk: low
+  - action: "memory_write"
+    risk: low

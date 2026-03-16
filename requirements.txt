@@ -1,0 +1,44 @@
+# OmniCompanion — Python Dependencies
+# Pinned versions for reproducible builds
+
+# Google Cloud / Vertex AI
+google-cloud-aiplatform>=1.38.0
+google-cloud-firestore>=2.13.0
+google-cloud-storage>=2.14.0
+google-cloud-logging>=3.8.0
+
+# gRPC
+grpcio>=1.60.0
+grpcio-tools>=1.60.0
+protobuf>=4.25.0
+
+# Browser Automation
+playwright>=1.40.0
+
+# OCR
+pytesseract>=0.3.10
+Pillow>=10.0.0
+
+# Data Validation
+pydantic>=2.5.0
+
+# Async / HTTP
+aiohttp>=3.9.0
+
+# Configuration
+python-dotenv>=1.0.0
+PyYAML>=6.0.1
+
+# Logging
+structlog>=23.2.0
+
+# Retry Logic
+tenacity>=8.2.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0
+
+# Utilities
+numpy>=1.26.0
