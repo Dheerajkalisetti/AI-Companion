@@ -1,0 +1,46 @@
+{
+  "name": "omnicompanion-ui",
+  "version": "0.1.0",
+  "description": "OmniCompanion Desktop UI — Electron + React + TypeScript",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "electron .",
+    "electron:build": "electron-builder"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.160.0",
+    "@react-three/fiber": "^8.15.0",
+    "@react-three/drei": "^9.92.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/three": "^0.160.0",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.2.0"
+  },
+  "build": {
+    "appId": "com.omnicompanion.ui",
+    "productName": "OmniCompanion",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
